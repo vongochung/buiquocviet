@@ -1,0 +1,36 @@
+{% load staticfiles i18n %}
+{% include 'common/homepage/header.html'  %}
+<title>{% block title %}{% trans "Lan rừng Bùi Quốc Việt" %}{% endblock %}</title>
+<meta name="description" content="{% block description %}{% endblock %}" />
+<meta property="og:description" content="{% block descriptions %}{% endblock %}" />
+<meta name="keywords" content="{% block keyword %}{% endblock %}" />
+<meta name="news_keywords" content="{% block news_keyword %}{% endblock %}" />
+<meta property="og:site_name" content="{% block fb_site_name %}{% endblock %}" />
+<meta property="og:type" content="article" />
+<meta property="og:locale" content="vi_VN" />
+<meta property="fb:app_id" content="332023790214859" />
+<meta property="fb:admins" content="{% block fb_admin %}100000272067325{% endblock %}" />
+<meta property="og:title" content="{% block fb_title %}Tin tức ngudan.com | tin nhanh bong da | the thao | thoi trang, giai tri vn | bao online{% endblock %}" />    
+<meta property="og:url" content="{% block fb_url %}http://ngudan.com/{% endblock %}" />
+<meta content="{% block fb_image %}{% static 'images/nd.png' %}{% endblock %}" property="og:image"/>
+</head>
+<body>
+<header id="header">
+    <div class="container top">
+        <div id="banner"></div>
+    </div>            
+</header>
+<div class="container content">
+    {% block content %}
+    {% endblock %}
+</div>
+<div>
+    <div class="hidden-xs hidden-sm">
+       <!-- google ad-->
+    </div>
+</div>
+{% include 'common/homepage/footer.html'  %}
+{% block js %}
+{% endblock %}
+   </body>
+</html>

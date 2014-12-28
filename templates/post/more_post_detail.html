@@ -1,0 +1,10 @@
+{% load staticfiles i18n %}
+{% load humanize %}
+{% for post in posts %}
+	{% include 'post/one_post_detail.html' %}
+{% endfor %}
+{% if posts.has_next %}
+<div class="col-md-12 col-sm-12 col-xs-12 post next-post">
+    <a href="javascript:void(0)" class="viewmore-post-detail" data-type="{{ type }}" data-category="{{ cate_current }}" data-page="{{ posts.next_page_number}}">{% trans "Xem thêm" %}</a> 
+</div>
+{% endif %}

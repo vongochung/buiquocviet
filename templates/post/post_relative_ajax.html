@@ -1,0 +1,35 @@
+{% load staticfiles i18n %}
+<div class="view-list">
+	{% trans "Bạn chưa xem" %}
+</div>
+<div id="not-view">
+	<!-- not view-->
+	{% for post in posts_not_view %}
+		{% include 'post/one_post_detail.html' %}
+	{% empty %}
+		<div class="alert alert-warning" >{% trans "Không có video nào bạn chưa xem" %}</div>
+	{% endfor %}
+	{% if posts_not_view.has_next %}
+	<div class="col-md-12 col-sm-12 col-xs-12 post next-post">
+	    <a href="javascript:void(0)" class="viewmore-post-detail" data-type="not-view" data-category="{{ cate_current }}" data-page="{{ posts_not_view.next_page_number}}">{% trans "Xem thêm" %}</a> 
+	</div>
+	{% endif %}
+	<!-- end notView -->
+</div>
+<div class="view-list">
+	{% trans "Bạn đã xem" %}
+</div>
+<div id="viewed" >
+	<!-- viewED-->
+	{% for post in posts_viewed %}
+		{% include 'post/one_post_detail.html' %}
+	{% empty %}
+		<div class="alert alert-warning" >{% trans "Không có video nào bạn đã xem" %}</div>
+	{% endfor %}
+	{% if posts_viewed.has_next %}
+	<div class="col-md-12 col-sm-12 col-xs-12 post next-post">
+	    <a href="javascript:void(0)" class="viewmore-post-detail" data-type="viewed" data-category="{{ cate_current }}" data-page="{{ posts_viewed.next_page_number}}">{% trans "Xem thêm" %}</a> 
+	</div>
+	{% endif %}
+	<!-- endViewEd -->
+</div>

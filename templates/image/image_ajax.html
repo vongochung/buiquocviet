@@ -1,0 +1,14 @@
+{% load staticfiles i18n %}
+{% for url in urls %}
+	{% include 'image/one_image.html' %}
+{% endfor %}
+{% if images.has_next %}
+<div class="col-md-12 col-sm-12 col-xs-12">
+    <a href="javascript:void(0)" class="viewmore-image" style="display: block;
+height: 40px;
+text-align: center;
+background-color: rgb(249, 232, 232);
+padding-top: 10px;
+margin-top: 10px;" data-page="{{ images.next_page_number}}">{% trans "Xem thêm" %}</a> 
+</div>
+{% endif %}

@@ -1,0 +1,117 @@
+{% extends "admin/change_form.html" %}
+{% load i18n admin_static %}
+{% block extrastyle%}
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css"> 
+<link rel="stylesheet" type="text/css" href="{% static "admin/css/forms.css" %}" />
+<style type="text/css">
+	body{
+		font-family: "Lucida Grande","DejaVu Sans","Bitstream Vera Sans",Verdana,Arial,sans-serif !important;
+	}
+  .upload-image{
+    display: inline-block !important;
+  }
+  .img-l:hover{
+  	cursor: pointer;
+  	border:solid 1px #ccc;
+  }
+</style>
+{% endblock %}
+{% block extrahead %}{{ block.super }}
+{% url 'admin:jsi18n' as jsi18nurl %}
+<script type="text/javascript" src="{{ jsi18nurl|default:"../../../jsi18n/" }}"></script>
+{{ media }}
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script> 
+<script type="text/javascript">
+	$(function() {
+        $(document).on("click", "#btn-upload", function(){
+            if($("#file").val() == ""){
+              return false;
+            }
+            return true;
+        });
+
+        $(document).on("click", "#select-image", function(){
+            $.ajax({
+              url: '/get-images/',
+              type: 'GET',
+              cache: true
+            })
+            .done(function(data) {    
+                $("#wrap-image").html(data.html);            
+            })
+            .fail(function() {
+                console.log("error");
+            })
+            .always(function() {
+            });
+        });
+
+        $(document).on("click", ".img-blob", function(){
+              url = $(this).data("src");
+              s = '<img src="'+url+'" />';
+              $(tinymce.get('id_content').getBody()).append(s);
+              $("#test").modal("hide");
+
+        });
+
+        $(document).on("click",".viewmore-image",function(e) {
+		    var $ele = $(this),
+		    page = $(this).data("page"),
+		    data = {
+		        "page": page
+		    };
+		    $ele.parent().remove();
+		    $.ajax({
+		        url: '/get-more-images/',
+		        type: 'POST',
+		        data: data,
+		    })
+		    .done(function(data) {    
+		        $("#wrap-image").append(data.html);           
+		    })
+		    .fail(function() {
+		        console.log("error");
+		    })
+		    .always(function() {
+		        $ele.parent().remove();
+		    });
+		        
+		});
+
+	});
+
+</script>
+{% endblock %}
+{% block object-tools %}
+{% if user.is_superuser %}
+<!-- Modal -->
+<div class="modal fade" id="test" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="false">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="myModalLabel">{% trans "Ảnh của bạn" %}</h4>
+      </div>
+      <div class="modal-body" id="image-content">
+      	<div id="wrap-image" style="min-height:500px;max-height:500px;overflow-y:scroll">
+      	</div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">{% trans "Đóng" %}</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="module text-center" >
+  <form action="{{url_upload_image}}" method="POST" enctype="multipart/form-data">
+    <input type="hidden" name="redirect" value="{{request.get_full_path}}">
+    <input type="file" id="file" name="file" class="upload-image">
+    <button class="btn btn-primary" id="btn-upload">{% trans "Upload" %}</button>
+  </form>
+  <button class="btn btn-success" data-toggle="modal" data-target="#test" id="select-image">{% trans "Chọn ảnh" %}</button>
+</div>
+{% endif %}
+
+
+{% endblock %}
