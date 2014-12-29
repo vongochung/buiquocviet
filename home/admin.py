@@ -25,12 +25,13 @@ class CategoryForm(forms.ModelForm):
 
     class Meta:
         model = Category
-        fields = ('name','name_en', 'parent_id', 'order')
+        fields = ('name','name_en','image_url', 'parent_id', 'order')
 
 
 class CustomCategoryAdmin(admin.ModelAdmin):
     fieldsets = None
-    list_display = ('name', 'order')
+    list_display = ('name','image_tag' ,'order', )
+    readonly_fields = ('image_tag',)
     form = CategoryForm
 
 class CustomIMAGEAdmin(admin.ModelAdmin):

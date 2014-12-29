@@ -36,7 +36,15 @@ INSTALLED_APPS = (
     'djangoappengine',
     'django.contrib.sitemaps',
     'django.contrib.flatpages',
+
 )
+DBINDEXER_BACKENDS = (
+    'dbindexer.backends.BaseResolver',
+    #'dbindexer.backends.InMemoryJOINResolver',
+    'dbindexer.backends.FKNullFix',
+    'dbindexer.backends.ConstantFieldJOINResolver',
+)
+
 AUTHENTICATION_BACKENDS = (
     'permission_backend_nonrel.backends.NonrelPermissionBackend',
 )
@@ -121,8 +129,8 @@ USE_L10N = True
 # If you set this to False, Django will not use timezone-aware datetimes.
 USE_TZ = False
 
-#HOST = "http://lanrungbuiquocviet.appspot.com"
-HOST = "http://localhost:8000"
+HOST = "http://lanrungbuiquocviet.appspot.com"
+#HOST = "http://localhost:8000"
 
 TINYMCE_DEFAULT_CONFIG = {
     'plugins': "table,spellchecker,paste,searchreplace",

@@ -1,0 +1,37 @@
+{% load staticfiles i18n %}
+{% load humanize %}
+{% load tz %}
+<!--One Post -->
+<div class="col-md-4 col-sm-4 col-xs-6 view post">
+    <div class="lan">
+        <div class="name-lan">{% trans lan.name %}</div>
+        <img class="profile-img main img-responsive" src="{{ lan.image_url }}" alt="">
+    </div>
+    <div class="mask">
+        <div class="mask-wrap">
+            <div class="profile-panel">
+                <img class="profile-img medium" src="{{ lan.image_url }}" alt="">
+                
+                <div class="profile-mask medium onlyIE8">
+                    <div class="box count"><i class="icon-mom icon-white"></i></div>
+                </div>
+            </div>
+            <div class="info-lan-cate">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <span class="badge">14</span>
+                        {% trans "Bài viết" %}
+                    </li>
+                    <li class="list-group-item">
+                        <span class="badge">14444444</span>
+                        {% trans "Theo dõi" %}
+                    </li>
+                </ul>
+            </div>
+            <button class="btn btn-small btn-orange" >
+                <i class="icon-plus icon-white"></i>Xem
+            </button>
+        </div>
+    </div>
+</div>
+<!--End Post-->

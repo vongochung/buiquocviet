@@ -37,11 +37,19 @@ TZINFOS = {
 
 class Category(models.Model):
     name = models.CharField(max_length=135, unique=True, null=True)#HTMLField()
-    name_en = models.CharField(max_length=135, null=True)
+    name_en = models.CharField(max_length=135, null=True, blank=True)
     slug = models.SlugField(blank=False, max_length=255, unique=True)
     slug_en = models.SlugField(blank=False, max_length=255, unique=True)
     parent_id = models.ForeignKey('self', null=True, blank=True)
     order = models.IntegerField(default=0)
+    image_url = models.CharField( max_length=500, null=True,  blank=True)
+
+    def as_dict(self):
+        return {
+            "name": self.name,
+            "image":self.image_url,
+            "url": self.get_absolute_url(),
+        }
 
     def __unicode__(self):
         return self.name
@@ -54,6 +62,12 @@ class Category(models.Model):
     def get_category(self, category_id=None):
         categories = Category.objects.filter(parent_id=category_id)
         return categories
+
+    def image_tag(self):
+        return '<img src="%s=s100" />' % self.image_url
+
+    image_tag.short_description = 'Image'
+    image_tag.allow_tags = True
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
@@ -101,8 +115,8 @@ class POST(models.Model):
     views = models.IntegerField(null=True,blank=True,default=0)
     likes = models.IntegerField(null=True,blank=True,default=0)
     comments = models.IntegerField(null=True,blank=True,default=0)
-    #start = models.IntegerField(null=True,blank=True,default=0)
-    #end = models.IntegerField(null=True,blank=True,default=0)
+    start = models.IntegerField(null=True,blank=True,default=0)
+    end = models.IntegerField(null=True,blank=True,default=0)
     date = models.DateTimeField(auto_now_add=True)
 
     def __unicode__(self):
@@ -144,7 +158,8 @@ class POST(models.Model):
             self.slug_en = slugify(self.title)
         else:
             self.slug_en = slugify(self.title_en)
-        #self.link = self.link.replace("https://www.youtube.com/watch?v=", "");
+        if self.typePost != "text":
+            self.link = self.link.replace("https://www.youtube.com/watch?v=", "")
         if memcache.get('post-trang-chu') is not None:
             memcache.delete('post-trang-chu')
 
@@ -154,7 +169,6 @@ class POST(models.Model):
         self.expire_view_cache("index")
         self.expire_view_cache("category")
         cache.clear()
-        #self.expire_view_cache("/"+self.category.slug+"/")
             
         super(POST, self).save(*args, **kwargs)
 

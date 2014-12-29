@@ -260,18 +260,46 @@ ul.navbar-nav {
     background-color: #f4f4f4;
     width: 100%;
     height: 100%;
+    position: relative;
 }
-.footer-lan .btn {
+#div-search{
+    margin-bottom: 10px;
+    margin-left: 30px;
+}
+.list-group-item:first-child{
+    border-top-right-radius:0px !important;
+    border-top-left-radius:0px !important;
+}
+.info-lan-cate{
+    top: 44%;
+    position: relative;
     width: 100%;
-    position: absolute;
-    bottom: 0px;
-    left: 0px;
-    border-radius: 0;
+}
+.badge{
+    background-color: #CC181E;
+}
+.list-group-item{
+    /*border: none !important;*/
+    border-left: none !important;
+    border-right: none !important;
+    text-align: left;
+}
+.btn-orange {
+    width: 100%;
+      position: absolute;
+      bottom: 0px;
+      left: 0px;
+      border-radius: 0;
+      background-color: orange;
+      color: white;
+      font-weight: bold;
+      font-size: 16px;
 }
 .profile-mask.medium, .profile-img.medium {
     width: 50px;
     height: 50px;
     background-size: 50px;
+    border-radius: 100px;
 }
 .post .profile-panel .profile-img {
     -webkit-border-radius: 100px;
@@ -364,6 +392,26 @@ ul.navbar-nav {
 }
 
 /*=====endflip=======*/
+.throbber {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 200px;
+    height: 170px;
+    margin: -100px 0 0 -100px;
+    z-index: 900;
+    padding: 1.618em 2.618em;
+    font-size: 1.618em;
+    color: #fff;
+    background: #196c96;
+    border-radius: 1em;
+    box-shadow: 0 0 18px rgba(0,0,0,.25),inset -1px -1px 0 rgba(0,0,0,.2);
+}
+.throbber .fa {
+    display: block;
+    font-size: 4em;
+    margin-bottom: 10px;
+}
 .ad{
     position: fixed;
     right: 490px;
@@ -479,6 +527,27 @@ footer ul li{
     text-align: center;
     padding-top: 15px;
     font-size: 20px;
+    border: 1px solid #ddd;
+}
+.ui-autocomplete-loading {
+    background: white url("../images/ui-anim_basic_16x16.gif") right center no-repeat;
+}
+.ui-menu .ui-menu-item{
+    height: 65px;
+    list-style-image:none !important;
+}
+.name-search{
+    padding-left: 15px;
+}
+.ui-state-hover,
+.ui-widget-content .ui-state-hover,
+.ui-widget-header .ui-state-hover,
+.ui-state-focus,
+.ui-widget-content .ui-state-focus,
+.ui-widget-header .ui-state-focus {
+    border: none !important;
+    background: #F9E5F7 !important;
+    color: #212121;
 }
 /*===google===*/
 .gsc-input-box {

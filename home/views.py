@@ -20,45 +20,17 @@ from google.appengine.api import images
 import cgi
 now = datetime.now()
 
-#@cache_page(60 * 5)
-def index(request, views=None):
-	posts_list = None
-	views_most = False
-	comment_most = False
+@cache_page(60 * 5)
+def index(request):
 	lang = request.LANGUAGE_CODE
-	if views is not None and views == "xem-nhieu":
-		views_most = True
-		posts_list = memcache.get('post-views')
-		if posts_list is None:
-			posts_list = POST.objects.all().order_by('-views')
-			memcache.set('post-views', list(posts_list), 300)
-	elif views is not None and views == "binh-luan-nhieu":
-		comment_most = True
-		posts_list = memcache.get('post-comments')
-		if posts_list is None:
-			posts_list = POST.objects.all().order_by('-comments')
-			memcache.set('post-comments', list(posts_list), 300)
-	else:
-		posts_list = memcache.get('post-trang-chu')
-		if posts_list is None:
-			posts_list = POST.objects.all().order_by('-date')
-			memcache.set('post-trang-chu', list(posts_list), 300)
-	paginator = Paginator(posts_list, 5)
-	posts = paginator.page(1)
-
 	categories = memcache.get('categories-'+lang)
 	if categories is None:
 		categories = Category.objects.all().order_by('order')
 		memcache.set('categories-'+lang, list(categories), 300)
 
-	redirect = "/"
-
-	if views_most == True:
-		redirect = set_redirect(lang,"xem_nhieu")
-	elif comment_most == True:
-		redirect = set_redirect(lang,"binh_luan_nhieu")
-
-	return render_to_response('home/index.html', {"redirect":redirect, "posts":posts, "categories":categories, "lang":lang}, context_instance=RequestContext(request))
+	paginator = Paginator(categories, 1)
+	categories = paginator.page(1)
+	return render_to_response('home/index.html', {"categories":categories, "lang":lang}, context_instance=RequestContext(request))
 
 def set_redirect(lang="vi", type_redirect_page=None, post=None, category=None):
 	redirect = "/"
@@ -113,6 +85,29 @@ def get_posts(request):
 			data["cate_current"] = category
 
 		html = render_to_string("post/post_ajax.html", data)
+		serialized_data = json.dumps({"html": html})
+		return HttpResponse(serialized_data, mimetype='application/json')
+
+	return HttpResponse(status=400)
+
+def get_categories(request):
+	if request.method == 'POST':
+		cate_list = None
+		lang = request.LANGUAGE_CODE
+		page = request.POST.get('page')
+		cate_list = memcache.get('categories-'+lang)
+		if cate_list is None:
+			cate_list = Category.objects.all().order_by('order')
+			memcache.set('categories-'+lang, cate_list, 300)
+		paginator = Paginator(cate_list, 1)
+		
+		try:
+			categories = paginator.page(page)
+		except PageNotAnInteger:
+			return HttpResponse(status=400)
+		data = {"categories":categories, "lang":request.LANGUAGE_CODE}
+
+		html = render_to_string("category/category_ajax.html", data)
 		serialized_data = json.dumps({"html": html})
 		return HttpResponse(serialized_data, mimetype='application/json')
 
@@ -345,3 +340,16 @@ def liked(request):
 			post.updateLike()
 		return HttpResponse(status=200)
 	return HttpResponse(status=400)
+
+def search(request):
+	""" Autocomplete search for Venue and Player API
+	:param request:
+	"""
+	key = u'%s' % request.GET['q']
+	callback = request.GET.get('callback')
+	cates = Category.objects.all().filter(name__contains=key)
+	#cates = Category.objects.all().filter()
+	dictionaries = [ obj.as_dict() for obj in cates ]
+	serialized_data = json.dumps(dictionaries)
+	data = '%s(%s)' % (callback, serialized_data)
+	return HttpResponse(data, mimetype='application/json')

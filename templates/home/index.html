@@ -5,85 +5,73 @@
 {% load tz %}
 
 {% block content %}
+<link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
 <div class="post-wrap-content">
-	<div id="post-wrap" class="col-md-12 col-sm-12 col-xs-12">
-		<!--One Post -->
-		<div class="col-md-4 col-sm-4 col-xs-6 view post">
-			<div class="lan">
-				<div class="name-lan">Kiếm da đen</div>
-				<img class="profile-img main img-responsive" src="https://fbcdn-sphotos-f-a.akamaihd.net/hphotos-ak-xap1/v/t1.0-9/10352384_389899404484312_559237812361509696_n.jpg?oh=daf323bc3800449f909be11c5ca99988&oe=55303922&__gda__=1428835435_1139244849c6664b199d3db67051ff37" alt="fb-avatar">
-			</div>
-			<div class="mask">
-				<div class="mask-wrap">
-					<div class="profile-panel">
-		        		<img class="profile-img medium" src="http://graph.facebook.com/532151049/picture?width=75&amp;height=75" alt="fb-avatar">
-		        		
-						<div class="profile-mask medium onlyIE8">
-		                    <div class="box count"><i class="icon-mom icon-white"></i></div>
-		                </div>
-	    			</div>
-	    			<button class="btn btn-small btn-orange" >
-	                        <i class="icon-plus icon-white"></i>Xem
-	                    </button>
-	    			<div class="footer-lan">
-	                    <button class="btn btn-small btn-orange" >
-	                        <i class="icon-plus icon-white"></i>Xem
-	                    </button>
-		    		</div>
-				</div>
-			</div>
-		</div>
-		<!--End Post-->
-		<!--One Post -->
-		<div class="col-md-4 col-sm-4 col-xs-6 view post">
-			<div class="lan">
-				<div class="name-lan">Kiếm da đen</div>
-				<img class="profile-img main img-responsive" src="https://fbcdn-sphotos-f-a.akamaihd.net/hphotos-ak-xap1/v/t1.0-9/10352384_389899404484312_559237812361509696_n.jpg?oh=daf323bc3800449f909be11c5ca99988&oe=55303922&__gda__=1428835435_1139244849c6664b199d3db67051ff37" alt="fb-avatar">
-			</div>
-			<div class="mask">
-			</div>
-		</div>
-		<!--End Post-->
-		<!--One Post -->
-		<div class="col-md-4 col-sm-4 col-xs-6 view post">
-			<div class="lan">
-				<div class="name-lan">Kiếm da đen</div>
-				<img class="profile-img main img-responsive" src="https://fbcdn-sphotos-f-a.akamaihd.net/hphotos-ak-xap1/v/t1.0-9/10352384_389899404484312_559237812361509696_n.jpg?oh=daf323bc3800449f909be11c5ca99988&oe=55303922&__gda__=1428835435_1139244849c6664b199d3db67051ff37" alt="fb-avatar">
-			</div>
-			<div class="mask">
-			</div>
-		</div>
-		<!--End Post-->
-		<!--One Post -->
-		<div class="col-md-4 col-sm-4 col-xs-6 view post">
-			<div class="lan">
-				<div class="name-lan">Kiếm da đen</div>
-				<img class="profile-img main img-responsive" src="https://fbcdn-sphotos-f-a.akamaihd.net/hphotos-ak-xap1/v/t1.0-9/10352384_389899404484312_559237812361509696_n.jpg?oh=daf323bc3800449f909be11c5ca99988&oe=55303922&__gda__=1428835435_1139244849c6664b199d3db67051ff37" alt="fb-avatar">
-			</div>
-			<div class="mask">
-			</div>
-		</div>
-		<!--End Post-->
-		<!--One Post -->
-		<div class="col-md-4 col-sm-4 col-xs-6 view post">
-			<div class="lan">
-				<div class="name-lan">Kiếm da đen</div>
-				<img class="profile-img main img-responsive" src="https://fbcdn-sphotos-f-a.akamaihd.net/hphotos-ak-xap1/v/t1.0-9/10352384_389899404484312_559237812361509696_n.jpg?oh=daf323bc3800449f909be11c5ca99988&oe=55303922&__gda__=1428835435_1139244849c6664b199d3db67051ff37" alt="fb-avatar">
-			</div>
-			<div class="mask">
-			</div>
-		</div>
-		<!--End Post-->
-		<!--One Post -->
-		<div class="col-md-4 col-sm-4 col-xs-6 view post">
-			<div class="lan">
-				<div class="name-lan">Kiếm da đen</div>
-				<img class="profile-img main img-responsive" src="https://fbcdn-sphotos-f-a.akamaihd.net/hphotos-ak-xap1/v/t1.0-9/10352384_389899404484312_559237812361509696_n.jpg?oh=daf323bc3800449f909be11c5ca99988&oe=55303922&__gda__=1428835435_1139244849c6664b199d3db67051ff37" alt="fb-avatar">
-			</div>
-			<div class="mask">
-			</div>
-		</div>
-		<!--End Post-->
+	<div id="div-search" class="text-center">
+		<div class="input-group col-md-6 col-lg-6">
+	      <input type="text" id="txt-search" autocomplete="off"  class="form-control ui-autocomplete-input" placeholder="Tìm kiếm lan...">
+	      <span class="input-group-btn">
+	        <button class="btn btn-success" id="btn-tim" type="button">{% trans "Tìm kiếm" %}</button>
+	      </span>
+	    </div><!-- /input-group -->
 	</div>
+	<div id="post-wrap" class="col-md-12 col-sm-12 col-xs-12">
+		{% for lan in categories %}
+			{% include "category/one_category.html" %}
+		{% endfor %}
+
+	</div>
+	{% if categories.has_next %}
+		{% if LANGUAGE_CODE == 'vi' %}
+		<div class="col-md-12 col-sm-12 col-xs-12 post next-post">
+		    <a href="javascript:void(0)" class="viewmore-category" data-page="{{ categories.next_page_number}}">{% trans "Xem thêm" %}</a> 
+		</div>
+		{% else %}
+		<div class="col-md-12 col-sm-12 col-xs-12 post next-post">
+	    	<a href="javascript:void(0)" class="viewmore-category"  data-page="{{ categories.next_page_number}}">{% trans "Xem thêm" %}</a> 
+		</div>
+		{% endif %}
+
+	{% endif %}
 </div>
+<!-- Loading -->
+<div id="ele-loading" class="throbber hide"><i class="fa fa-spinner fa-spin fa-3x"></i></div>
+<!-- EndLoading -->
+<script type="text/html" id="item_tmpl">
+<div class="col-md-4 col-sm-4 col-xs-6 view post">
+    <div class="lan">
+        <div class="name-lan"><%=name%></div>
+        <img class="profile-img main img-responsive" src="<%=image%>" alt="">
+    </div>
+    <div class="mask">
+        <div class="mask-wrap">
+            <div class="profile-panel">
+                <img class="profile-img medium" src="<%=image%>" alt="">
+                
+                <div class="profile-mask medium onlyIE8">
+                    <div class="box count"><i class="icon-mom icon-white"></i></div>
+                </div>
+            </div>
+            <div class="info-lan-cate">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <span class="badge">14</span>
+                        {% trans "Bài viết" %}
+                    </li>
+                    <li class="list-group-item">
+                        <span class="badge">14444444</span>
+                        {% trans "Theo dõi" %}
+                    </li>
+                </ul>
+            </div>
+            <button class="btn btn-small btn-orange" >
+                <i class="icon-plus icon-white"></i>Xem
+            </button>
+        </div>
+    </div>
+</div>
+</script>
+{% endblock %}
+{% block js %}
+  <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
 {% endblock %}

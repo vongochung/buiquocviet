@@ -1,0 +1,16 @@
+{% load staticfiles i18n %}
+{% load humanize %}
+{% for lan in categories %}
+	{% include 'category/one_category.html' %}
+{% endfor %}
+{% if categories.has_next %}
+	{% if LANGUAGE_CODE == 'vi' %}
+	<div class="col-md-12 col-sm-12 col-xs-12 post next-post">
+	    <a href="javascript:void(0)" class="viewmore-category" data-page="{{ categories.next_page_number}}">{% trans "Xem thêm" %}</a> 
+	</div>
+	{% else %}
+	<div class="col-md-12 col-sm-12 col-xs-12 post next-post">
+    	<a href="javascript:void(0)" class="viewmore-category" data-page="{{ categories.next_page_number}}">{% trans "Xem thêm" %}</a> 
+	</div>
+	{% endif %}
+{% endif %}

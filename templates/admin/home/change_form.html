@@ -46,11 +46,16 @@
             .always(function() {
             });
         });
-
+        item = "{{ opts.module_name}}";
         $(document).on("click", ".img-blob", function(){
               url = $(this).data("src");
               s = '<img src="'+url+'" />';
-              $(tinymce.get('id_content').getBody()).append(s);
+              if (item == "category"){
+                $("#id_image_url").val(url);
+              } else{
+                $(tinymce.get('id_content').getBody()).append(s);  
+              }
+              
               $("#test").modal("hide");
 
         });
@@ -114,4 +119,7 @@
 {% endif %}
 
 
+{% endblock %}
+
+{% block after_field_sets %}
 {% endblock %}
