@@ -231,6 +231,10 @@ $(document).on("click","#btn-tim",function(e) {
     call_loading();
 });
 
+$(document).on("click","#banner",function(e) {
+    call_loading();
+    document.location.href = "/";
+});
 
 function call_loading(){
     $("#ele-loading").toggleClass("hide");

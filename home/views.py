@@ -347,8 +347,7 @@ def search(request):
 	"""
 	key = u'%s' % request.GET['q']
 	callback = request.GET.get('callback')
-	cates = Category.objects.all().filter(name__contains=key)
-	#cates = Category.objects.all().filter()
+	cates = Category.objects.all().filter(Q(name__icontains=key))
 	dictionaries = [ obj.as_dict() for obj in cates ]
 	serialized_data = json.dumps(dictionaries)
 	data = '%s(%s)' % (callback, serialized_data)

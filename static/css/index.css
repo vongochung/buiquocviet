@@ -25,6 +25,7 @@ footer{
     height: 150px;
     background: url('../images/banner.png') no-repeat;
     background-size: 100%;
+    cursor: pointer;
 }
 #homelink{
     display: block;
