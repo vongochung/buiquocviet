@@ -28,7 +28,7 @@ def index(request):
 		categories = Category.objects.all().order_by('order')
 		memcache.set('categories-'+lang, list(categories), 300)
 
-	paginator = Paginator(categories, 1)
+	paginator = Paginator(categories, 6)
 	categories = paginator.page(1)
 	return render_to_response('home/index.html', {"categories":categories, "lang":lang}, context_instance=RequestContext(request))
 
@@ -99,7 +99,7 @@ def get_categories(request):
 		if cate_list is None:
 			cate_list = Category.objects.all().order_by('order')
 			memcache.set('categories-'+lang, cate_list, 300)
-		paginator = Paginator(cate_list, 1)
+		paginator = Paginator(cate_list, 6)
 		
 		try:
 			categories = paginator.page(page)

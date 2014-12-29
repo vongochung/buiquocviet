@@ -79,6 +79,7 @@ class Category(models.Model):
             memcache.delete('categories-vi')
         if memcache.get('categories-en') is not None:
             memcache.delete('categories-en')
+        cache.clear()
         super(Category, self).save(*args, **kwargs)
 
 class IMAGE_STORE(models.Model):
