@@ -83,6 +83,7 @@ STATICFILES_FINDERS = (
 #    'django.contrib.staticfiles.finders.DefaultStorageFinder',
 )
 
+PAGE_SIZE = 9
 # This test runner captures stdout and associates tracebacks with their
 # corresponding output. Helps a lot with print-debugging.
 TEST_RUNNER = 'djangotoolbox.test.CapturingTestSuiteRunner'
@@ -103,7 +104,6 @@ gettext = lambda s: s
 LANGUAGE_CODE = 'vi'
 
 LANGUAGES = (
-  ('en', gettext(u'Tiếng Anh')),
   ('vi', gettext(u'Tiếng Việt')),
 )
 
@@ -133,18 +133,20 @@ HOST = "http://lanrungbuiquocviet.appspot.com"
 #HOST = "http://localhost:8000"
 
 TINYMCE_DEFAULT_CONFIG = {
-    'plugins': "table,spellchecker,paste,searchreplace",
+    'plugins': "table,spellchecker,paste,searchreplace,fullscreen",
     'theme': "advanced",
-    'theme_advanced_buttons1': "formatselect,bold,italic,"
+    'theme_advanced_buttons1': "formatselect,bold,italic,sizeselect,fontselect,fontsizeselect,"
                                "underline,bullist,numlist,undo,redo,"
                                "link,unlink,justifyleft,justifycenter,justifyright,justifyfull,"
                                "fullscreen,pasteword,media,charmap",
     'theme_advanced_buttons2': 'image,search,pasteword,template,media,charmap,'
                                'cleanup,grappelli_documentstructure,forecolor',
+    'theme_advanced_buttons3_add' : "fullscreen",
     'extended_valid_elements': "script[type|src]",
     'theme_advanced_blockformats': "p,h2,h3,h4,h5,h6",
     'cleanup_on_startup': True,
     'custom_undo_redo_levels': 10,
     'theme_advanced_resizing': True,
-    'file_browser_callback': 'mce_filebrowser'
+    'file_browser_callback': 'mce_filebrowser',
+    'fontsize_formats': "8pt 10pt 12pt 14pt 18pt 24pt 36pt",
 }

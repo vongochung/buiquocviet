@@ -49,6 +49,8 @@ class Category(models.Model):
             "name": self.name,
             "image":self.image_url,
             "url": self.get_absolute_url(),
+            "views":self.count_views(),
+            "posts":self.count_post(),
         }
 
     def __unicode__(self):
@@ -62,6 +64,12 @@ class Category(models.Model):
     def get_category(self, category_id=None):
         categories = Category.objects.filter(parent_id=category_id)
         return categories
+
+    def count_post(self):
+        return POST.objects.filter(category=self).count()
+
+    def count_views(self):
+        return sum((x.views for x in POST.objects.filter(category=self)))
 
     def image_tag(self):
         return '<img src="%s=s100" />' % self.image_url
@@ -105,14 +113,10 @@ class POST(models.Model):
     author = models.ForeignKey(User)
     title = models.CharField(max_length=235, unique=True, null=True)
     slug = models.SlugField(blank=False, max_length=255, unique=True)
-    title_en = models.CharField(max_length=235, unique=True, null=True)
-    slug_en = models.SlugField(blank=False, max_length=255, unique=True)
     description = models.TextField()
-    description_en = models.TextField()
     link = models.TextField(null=True,blank=True)
     typePost = models.TextField(default="text")
-    content = HTMLField()#models.TextField(null=True,blank=True)
-    content_en = HTMLField()
+    content = HTMLField()
     views = models.IntegerField(null=True,blank=True,default=0)
     likes = models.IntegerField(null=True,blank=True,default=0)
     comments = models.IntegerField(null=True,blank=True,default=0)
@@ -126,6 +130,12 @@ class POST(models.Model):
     @models.permalink
     def get_absolute_url(self):
         return ("detail_post", [self.category.slug,self.slug])
+
+    @property
+    def is_past_due(self):
+        if datetime.date.today() > self.date:
+            return True
+        return False
 
     def updateView(self):
         if self.views is None:
@@ -155,10 +165,6 @@ class POST(models.Model):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
-        if self.title_en is None:
-            self.slug_en = slugify(self.title)
-        else:
-            self.slug_en = slugify(self.title_en)
         if self.typePost != "text":
             self.link = self.link.replace("https://www.youtube.com/watch?v=", "")
         if memcache.get('post-trang-chu') is not None:

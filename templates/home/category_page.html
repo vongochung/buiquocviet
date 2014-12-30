@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% load staticfiles i18n %}
+{% load humanize %}
+{% load tz %}
+
+{% block content %}
+<div class="post-wrap-content">
+	{% include "search/lan_search.html" %}
+	<div id="post-wrap" class="col-md-12 col-sm-12 col-xs-12">
+		{% for post in posts %}
+			{% include "post/one_post.html" %}
+		{% endfor %}
+	</div>
+    <div class="next">
+	{% if posts.has_next %}
+		<div class="col-md-12 col-sm-12 col-xs-12 post next-post">
+		    <a href="javascript:void(0)" data-category="{{cate_current.slug}}" class="viewmore-post" data-page="{{ posts.next_page_number}}">{% trans "Xem thêm" %}</a> 
+		</div>
+	{% endif %}
+    </div>
+</div>
+{% endblock %}

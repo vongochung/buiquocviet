@@ -10,7 +10,7 @@
 <meta property="og:locale" content="vi_VN" />
 <meta property="fb:app_id" content="332023790214859" />
 <meta property="fb:admins" content="{% block fb_admin %}100000272067325{% endblock %}" />
-<meta property="og:title" content="{% block fb_title %}Tin tức ngudan.com | tin nhanh bong da | the thao | thoi trang, giai tri vn | bao online{% endblock %}" />    
+<meta property="og:title" content="{% block fb_title %}{% endblock %}" />    
 <meta property="og:url" content="{% block fb_url %}http://ngudan.com/{% endblock %}" />
 <meta content="{% block fb_image %}{% static 'images/nd.png' %}{% endblock %}" property="og:image"/>
 </head>
@@ -23,6 +23,43 @@
 <div class="container content">
     {% block content %}
     {% endblock %}
+<!-- Loading -->
+<div id="ele-loading" class="throbber hide"><i class="fa fa-spinner fa-spin fa-3x"></i></div>
+<!-- EndLoading -->
+<script type="text/html" id="item_tmpl">
+<div class="col-md-4 col-sm-4 col-xs-6 view post home">
+    <div class="lan">
+        <div class="name-lan"><%=name%></div>
+        <img class="profile-img main img-responsive" src="<%=image%>" alt="">
+    </div>
+    <div class="mask">
+        <div class="mask-wrap">
+            <div class="profile-panel">
+                <img class="profile-img medium" src="<%=image%>" alt="">
+                
+                <div class="profile-mask medium onlyIE8">
+                    <div class="box count"><i class="icon-mom icon-white"></i></div>
+                </div>
+            </div>
+            <div class="info-lan-cate">
+                <ul class="list-group">
+                    <li class="list-group-item">
+                        <span class="badge"><%=posts%></span>
+                        {% trans "Bài viết" %}
+                    </li>
+                    <li class="list-group-item">
+                        <span class="badge"><%=views%></span>
+                        {% trans "Theo dõi" %}
+                    </li>
+                </ul>
+            </div>
+            <a href="<%=url%>" class="btn btn-small btn-orange" >
+                <i class="icon-plus icon-white"></i>Xem
+            </a>
+        </div>
+    </div>
+</div>
+</script>
 </div>
 <div>
     <div class="hidden-xs hidden-sm">

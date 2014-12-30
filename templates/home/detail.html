@@ -69,11 +69,8 @@ https://i1.ytimg.com/vi/{{ post.link  }}/default.jpg
               <span class="pull-right time-post">{{post.date|naturalday }} - {% trans "lúc" %} {{ post.translate|time:"P"  }}</span>
           </a>
       </div>
-      {% if lang == 'vi' %}
       <h2 class="title-post"><a href="/{{post.category.slug}}/{{post.slug}}/">{{ post.title|escape }}</a></h2>
-      {% else %}
-      <h2 class="title-post"><a href="/{{post.category.slug_en}}/{{post.slug_en}}/">{{ post.title_en|escape }}</a></h2>
-      {% endif %}
+      {% if post.typePost != "text" %}
       <div id="video">
           <div class="player">
               <object>
@@ -91,6 +88,9 @@ https://i1.ytimg.com/vi/{{ post.link  }}/default.jpg
               <div class="logo"></div>
           </div>
       </div>
+      {% else %}
+      <div>{{post.content|safe}}</div>
+      {% endif %}
       <div class="share">
           <div class="fb-like" data-href="{{HOST}}/{{post.category.slug}}/{{post.slug}}/" data-width="100" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
       </div>
@@ -104,24 +104,15 @@ https://i1.ytimg.com/vi/{{ post.link  }}/default.jpg
     <!-- EndmorePost -->
   </div>
   <!--End Post-->
-  <div id="category" class="col-md-3 col-sm-3 col-xs-6">
-    {% if lang == 'vi' %}
-      {% for category in categories %}
-        <a href="{{HOST}}/{{category.slug}}" class="{% if post.category == category %}menu-active{% endif %}">{{ category.name }}</a>
-      {% endfor %}
-    {% else %}
-      {% for category in categories %}
-        <a href="{{HOST}}/{{category.slug_en}}" class="{% if post.category == category %}menu-active{% endif %}">{{ category.name_en }}</a>
-      {% endfor %}
-    {% endif %}
-
-  </div>
-  <a id="btn-pullout" class="visible-xs visible-sm" href="javascript:toogleMenu()"><i class="fa fa-bars"></i></a>
-  <!--EndCategory-->
 </div>
 {% endblock %}
 {% block js %}
   <script type="text/javascript">
-    function comment_create(e){$.ajax({url:"/commented/",type:"POST",data:{p:"{{post.id}}"}}).done(function(e){console.log("commented")}).fail(function(){console.log("error comment")}).always(function(){})}function comment_remove(e){$.ajax({url:"/commented/",type:"POST",data:{p:"{{post.id}}",type:"removed"}}).done(function(e){console.log("removed")}).fail(function(){console.log("error comment")}).always(function(){})}function edge_create(e){$.ajax({url:"/liked/",type:"POST",data:{p:"{{post.id}}"}}).done(function(e){console.log("liked")}).fail(function(){console.log("error liked")}).always(function(){})}function edge_remove(e){$.ajax({url:"/liked/",type:"POST",data:{p:"{{post.id}}",type:"unliked"}}).done(function(e){console.log("unliked")}).fail(function(){console.log("error unliked")}).always(function(){})}$(function(){loading($("#relative-post"));var e="{{lang}}",t="/relative-post/{{ post.category.slug }}/";if(e!="vi"){t="/relative-post/{{ post.category.slug_en }}/"}setTimeout(function(){$.ajax({url:t,type:"GET",data:{post:"{{ post.id }}"},dataType:"json",success:function(e){loading($("#relative-post"));$("#relative-post").append(e.html);displayPlayer();$('[data-toggle="popover"]').popover({trigger:"hover",placement:"top"})},complete:function(){console.log("xong")}})},3e3)});window.fbAsyncInit=function(){FB.init({appId:"1504773003132119",cookie:true,xfbml:true,version:"v2.2"});FB.Event.subscribe("comment.create",comment_create);FB.Event.subscribe("comment.remove",comment_remove);FB.Event.subscribe("edge.create",edge_create);FB.Event.subscribe("edge.remove",edge_remove)}
+   function comment_create(e){$.ajax({url:"/commented/",type:"POST",data:{p:"{{post.id}}"}}).done(function(e){console.log("commented")}).fail(function(){console.log("error comment")}).always(function(){})}function comment_remove(e){$.ajax({url:"/commented/",type:"POST",data:{p:"{{post.id}}",type:"removed"}}).done(function(e){console.log("removed")}).fail(function(){console.log("error comment")}).always(function(){})}function edge_create(e){$.ajax({url:"/liked/",type:"POST",data:{p:"{{post.id}}"}}).done(function(e){console.log("liked")}).fail(function(){console.log("error liked")}).always(function(){})}function edge_remove(e){$.ajax({url:"/liked/",type:"POST",data:{p:"{{post.id}}",type:"unliked"}}).done(function(e){console.log("unliked")}).fail(function(){console.log("error unliked")}).always(function(){})}$(function(){loading($("#relative-post"));var e="/relative-post/{{ post.category.slug }}/";setTimeout(function(){$.ajax({url:e,type:"GET",data:{post:"{{ post.id }}"},dataType:"json",success:function(e){loading($("#relative-post"));$("#relative-post").append(e.html);displayPlayer();$('[data-toggle="popover"]').popover({trigger:"hover",placement:"top"})},complete:function(){console.log("xong")}})},1e3)});window.fbAsyncInit=function(){FB.init({appId:"1504773003132119",cookie:true,xfbml:true,version:"v2.2"});FB.Event.subscribe("comment.create",comment_create);FB.Event.subscribe("comment.remove",comment_remove);FB.Event.subscribe("edge.create",edge_create);FB.Event.subscribe("edge.remove",edge_remove)}
+  </script>
+  <script type="text/javascript" src="{% static 'highslide/highslide-with-gallery.js' %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static 'highslide/highslide.css' %}" />
+  <script type="text/javascript">
+      hs.graphicsDir="/static/highslide/graphics/";hs.align="center";hs.transitions=["expand","crossfade"];hs.wrapperClassName="dark borderless floating-caption";hs.fadeInOut=true;hs.dimmingOpacity=.75;hs.showCredits=false;if(hs.addSlideshow)hs.addSlideshow({interval:5e3,repeat:false,useControls:true,fixedControls:"fit",overlayOptions:{opacity:.6,position:"bottom center",hideOnMouseOut:true}})
   </script>
 {% endblock %}

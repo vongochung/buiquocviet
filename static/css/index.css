@@ -113,6 +113,30 @@ ul.navbar-nav {
     margin-bottom: 5px;
     background: #fff;
     -webkit-border-radius: 3px;
+   
+}
+.icon-new{
+    background: url(http://24h-static.24hstatic.com/images/2014/new.gif) no-repeat top left;
+    width: 24px;
+    height: 12px;
+    display: inline-block;
+    margin: 0 0 0 5px;
+}
+.past-post{
+    border-left:2px solid #000 !important;
+}
+.past-post h4{
+    color: #000 !important;
+}
+.category-post{
+    margin-bottom: 5px;
+    border-bottom: 1px solid #ddd;
+    margin-left: 15px;
+    border-left: solid 2px rgb(237, 112, 43);
+}
+.detail-relative{
+    margin-left: 0 !important;
+    text-align: left;
 }
 .post-detail{
     padding-left: 15px !important;
@@ -127,7 +151,17 @@ ul.navbar-nav {
 }
 .title-post{
     padding-top: 10px;
-    color: black;
+    color: #ed702b;
+}
+.title-post:hover{
+    text-decoration: underline;
+}
+.text-des{
+    color: #000;
+}
+.time-post{
+    font-size: 12px;
+    color: #000;
 }
 .title-post a{
     color: black;
@@ -194,6 +228,7 @@ ul.navbar-nav {
 .view img {
    display: block;
    position: relative;
+   width: 100%;
 }
 .view h2 {
    text-transform: uppercase;
@@ -231,7 +266,7 @@ ul.navbar-nav {
    box-shadow: 0 0 5px #000;
 }
 
-.post img {
+.home img {
    -webkit-transform: scaleY(1);
    -moz-transform: scaleY(1);
    -o-transform: scaleY(1);
@@ -315,7 +350,7 @@ ul.navbar-nav {
     margin-left: -28px;
     margin-top: -29px;
 }
-.post h2 {
+.home h2 {
    border-bottom: 1px solid rgba(0, 0, 0, 0.3);
    background: transparent;
    margin: 20px 40px 0px 40px;
@@ -334,7 +369,7 @@ ul.navbar-nav {
    filter: alpha(opacity=0);
    opacity: 0;
 }
-.post p {
+.home p {
    color: #333;
    -ms-filter: "progid: DXImageTransform.Microsoft.Alpha(Opacity=0)";
    filter: alpha(opacity=0);
@@ -350,7 +385,7 @@ ul.navbar-nav {
    -ms-transition: all 0.5s linear;
    transition: all 0.5s linear;
 }
-.post a.info {
+.home a.info {
    -ms-filter: "progid: DXImageTransform.Microsoft.Alpha(Opacity=0)";
    filter: alpha(opacity=0);
    opacity: 0;
@@ -365,7 +400,7 @@ ul.navbar-nav {
    -ms-transition: all 0.5s linear;
    transition: all 0.5s linear;
 }
-.post:hover img.main {
+.home:hover img.main {
    -webkit-transform: scale(10);
    -webkit-transition: all 0.5s linear;
    -moz-transform: scale(10);
@@ -376,12 +411,12 @@ ul.navbar-nav {
    filter: alpha(opacity=0);
    opacity: 0;
 }
-.post:hover .mask, .post.active .mask {
+.home:hover .mask, .home.active .mask {
    -ms-filter: "progid: DXImageTransform.Microsoft.Alpha(Opacity=100)";
    filter: alpha(opacity=100);
    opacity: 1;
 }
-.post:hover h2,.post:hover p,.post:hover a.info {
+.home:hover h2,.home:hover p,.home:hover a.info {
    -webkit-transform: scale(1);
    -moz-transform: scale(1);
    -o-transform: scale(1);
@@ -528,7 +563,6 @@ footer ul li{
     text-align: center;
     padding-top: 15px;
     font-size: 20px;
-    border: 1px solid #ddd;
 }
 .ui-autocomplete-loading {
     background: white url("../images/ui-anim_basic_16x16.gif") right center no-repeat;

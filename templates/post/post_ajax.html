@@ -4,14 +4,7 @@
 	{% include 'post/one_post.html' %}
 {% endfor %}
 {% if posts.has_next %}
-	{% if LANGUAGE_CODE == 'vi' %}
 	<div class="col-md-12 col-sm-12 col-xs-12 post next-post">
-	    <a href="javascript:void(0)" class="viewmore-post" {% if cate_current != None %}data-category={{ cate_current.slug }}{% endif %} data-page="{{ posts.next_page_number}}">{% trans "Xem thêm" %}</a> 
+	    <a href="javascript:void(0)" class="viewmore-post" data-category="{{cate_current}}" data-page="{{ posts.next_page_number}}">{% trans "Xem thêm" %}</a> 
 	</div>
-	{% else %}
-	<div class="col-md-12 col-sm-12 col-xs-12 post next-post">
-    	<a href="javascript:void(0)" class="viewmore-post" {% if cate_current != None %}data-category={{ cate_current.slug_en }}{% endif %} data-page="{{ posts.next_page_number}}">{% trans "Xem thêm" %}</a> 
-	</div>
-	{% endif %}
-
 {% endif %}

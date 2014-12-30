@@ -7,7 +7,7 @@
 	{% for post in posts_not_view %}
 		{% include 'post/one_post_detail.html' %}
 	{% empty %}
-		<div class="alert alert-warning" >{% trans "Không có video nào bạn chưa xem" %}</div>
+		<div class="alert alert-warning" >{% trans "Không có bài viết nào bạn chưa xem" %}</div>
 	{% endfor %}
 	{% if posts_not_view.has_next %}
 	<div class="col-md-12 col-sm-12 col-xs-12 post next-post">
@@ -24,7 +24,7 @@
 	{% for post in posts_viewed %}
 		{% include 'post/one_post_detail.html' %}
 	{% empty %}
-		<div class="alert alert-warning" >{% trans "Không có video nào bạn đã xem" %}</div>
+		<div class="alert alert-warning" >{% trans "Không có bài viết nào bạn đã xem" %}</div>
 	{% endfor %}
 	{% if posts_viewed.has_next %}
 	<div class="col-md-12 col-sm-12 col-xs-12 post next-post">

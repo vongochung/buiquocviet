@@ -118,6 +118,12 @@ indexes:
 - kind: home_post
   properties:
   - name: comments
+  - name: __key__
+    direction: desc
+
+- kind: home_post
+  properties:
+  - name: comments
   - name: title
   - name: __key__
     direction: desc

@@ -2,46 +2,10 @@
 {% load humanize %}
 {% load tz %}
 <!--One Post -->
-<div class="col-md-12 col-sm-12 col-xs-12 post">
-    <div class="header-post">
-        <a href="#">
-            <div class="head-img">
-            <img class="profile-img small img-circle " src="{% static 'images/logo1.png' %}"/>
-            </div>
-            <span class="head-name">{{ post.author }}</span>
-            <span class="pull-right time-post">{{post.date|naturalday }} - {% trans "lúc" %} {{ post.translate|time:"P"  }}</span>
-        </a>
-    </div>
-    {% if lang == 'vi' %}
-    <h2 class="title-post">
-        <a href="/{{post.category.slug}}/{{post.slug}}/">
-            {{ post.title|escape|lower }}
-        </a>
-    </h2>
-    <div id="video">
-        <div class="player text-center" style="background:url('http://img.youtube.com/vi/{{ post.link }}/0.jpg') center center no-repeat; ">
-        </div>
-        <a href="/{{post.category.slug}}/{{post.slug}}/" class="player-link"><div class="player-img"></div></a>
-    </div>
-    <div class="clearfix bottom-post">
-        <div class="fb-like" data-href="{{HOST}}/{{post.category.slug}}/{{post.slug}}/" data-width="100" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
-        <a class="pull-right" href="{{HOST}}/{{post.category.slug}}/{{post.slug}}#binhluan/">{% trans "Bình luận" %}</a>
-    </div>
-    {% else %}
-    <h2 class="title-post">
-    <a href="/{{post.category.slug_en}}/{{post.slug_en}}/">
-        {{ post.title_en|escape|lower }}
-    </a>
-    </h2>
-    <div id="video">
-        <div class="player text-center" style="background:url('http://img.youtube.com/vi/{{ post.link }}/0.jpg') center center no-repeat; ">
-        </div>
-        <a href="/{{post.category.slug_en}}/{{post.slug_en}}/" class="player-link"><div class="player-img"></div></a>
-    </div>
-    <div class="clearfix bottom-post">
-        <div class="fb-like" data-href="{{HOST}}/{{post.category.slug}}/{{post.slug}}/" data-width="100" data-layout="button_count" data-action="like" data-show-faces="true" data-share="true"></div>
-        <a class="pull-right" href="{{HOST}}/{{post.category.slug_en}}/{{post.slug_en}}#binhluan/">{% trans "Bình luận" %}</a>
-    </div>
-    {% endif %}
+<div class="col-md-12 col-sm-12 col-xs-12 category-post {% if post.is_past_due  %}past-post{% endif %}">
+  <a href="/{{post.category.slug}}/{{post.slug}}/" class="">
+    <h4 class="title-post"><span>{{ post.title|escape|lower|capfirst }}{% if post.is_past_due == False %}<span class="icon-new"></span>{% endif %}</span><span class="pull-right time-post">{{post.date|naturalday }} - {% trans "lúc" %} {{ post.translate|time:"P"  }}</span></h4>
+    <p class="text-des">{{ post.description|escape|lower|capfirst|truncatechars:100 }}</p>
+  </a>
 </div>
 <!--End Post-->

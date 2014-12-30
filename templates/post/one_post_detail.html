@@ -1,14 +1,21 @@
 {% load staticfiles i18n %}
 {% load humanize %}
 {% load tz %}
+
+{% if post.typePost == "text" %}
 <!--One Post -->
-<div class="col-md-4 col-sm-4 col-xs-6 post-relative">
+<div class="col-md-12 col-sm-12 col-xs-12 category-post detail-relative{% if post.is_past_due  %}past-post{% endif %}">
+  <a href="/{{post.category.slug}}/{{post.slug}}/" class="">
+    <h4 class="title-post"><span>{{ post.title|escape|lower|capfirst }}{% if post.is_past_due == False %}<span class="icon-new"></span>{% endif %}</span><span class="pull-right time-post">{{post.date|naturalday }} - {% trans "lúc" %} {{ post.translate|time:"P"  }}</span></h4>
+    <p class="text-des">{{ post.description|escape|lower|capfirst|truncatechars:100 }}</p>
+  </a>
+</div>
+<!--End Post-->
+{% else %}
+<!--One Post -->
+<div class="col-md-4 col-sm-4 col-xs-6 post-relative detail-relative">
     <h4 class="title-post detail-posts">
-    	{% if lang == 'vi' %}
-    	<a href="/{{post.category.slug}}/{{post.slug}}/" data-container="body" data-toggle="popover" data-placement="left" data-content="{{ post.title|escape|lower}}">{{ post.title|escape|lower|truncatechars:25 }}</a>
-    	{% else %}
-    		<a href="/{{post.category.slug_en}}/{{post.slug_en}}/" data-container="body" data-toggle="popover" data-placement="left" data-content="{{ post.title_en|escape|lower}}">{{ post.title_en|escape|lower|truncatechars:25 }}</a>
-    	{% endif %}
+        <a href="/{{post.category.slug}}/{{post.slug}}/" data-container="body" data-toggle="popover" data-placement="left" data-content="{{ post.title|escape|lower}}">{{ post.title|escape|lower|truncatechars:25 }}</a>
     </h4>
     <div id="video">
         <div class="player text-center" style="background:url('http://img.youtube.com/vi/{{ post.link }}/0.jpg') center center no-repeat; ">
@@ -17,3 +24,4 @@
     </div>
 </div>
 <!--End Post-->
+{% endif %}

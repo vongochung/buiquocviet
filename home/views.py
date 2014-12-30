@@ -19,6 +19,7 @@ from google.appengine.ext import blobstore
 from google.appengine.api import images
 import cgi
 now = datetime.now()
+from settings import PAGE_SIZE
 
 @cache_page(60 * 5)
 def index(request):
@@ -28,7 +29,7 @@ def index(request):
 		categories = Category.objects.all().order_by('order')
 		memcache.set('categories-'+lang, list(categories), 300)
 
-	paginator = Paginator(categories, 6)
+	paginator = Paginator(categories, PAGE_SIZE)
 	categories = paginator.page(1)
 	return render_to_response('home/index.html', {"categories":categories, "lang":lang}, context_instance=RequestContext(request))
 
@@ -57,30 +58,24 @@ def set_redirect(lang="vi", type_redirect_page=None, post=None, category=None):
 def get_posts(request):
 	if request.method == 'POST':
 		category = None
+		posts_list = None
 		page = request.POST.get('page')
 
 		if "category" in request.POST:
 			category = request.POST["category"]
-			if request.LANGUAGE_CODE == 'vi':
-				cate= get_object_or_404(Category,slug=category)
-			else:
-				cate= get_object_or_404(Category,slug_en=category)
+			cate= get_object_or_404(Category,slug=category)
 			posts_list = memcache.get('categories-%s' % category)
 			if posts_list is None:
 				posts_list = POST.objects.filter(category=cate).order_by('-date')
 				memcache.set('categories-%s' % category, list(posts_list), 300)
-		else:
-			posts_list = memcache.get('post-trang-chu')
-			if posts_list is None:
-				posts_list = POST.objects.all().order_by('-date')
 
-		paginator = Paginator(posts_list, 5)
+		paginator = Paginator(posts_list, PAGE_SIZE)
 		
 		try:
 			posts = paginator.page(page)
 		except PageNotAnInteger:
 			return HttpResponse(status=400)
-		data = {"posts":posts, "lang":request.LANGUAGE_CODE}
+		data = {"posts":posts}
 		if category is not None:
 			data["cate_current"] = category
 
@@ -93,19 +88,21 @@ def get_posts(request):
 def get_categories(request):
 	if request.method == 'POST':
 		cate_list = None
-		lang = request.LANGUAGE_CODE
 		page = request.POST.get('page')
-		cate_list = memcache.get('categories-'+lang)
-		if cate_list is None:
+		try:
+			cate_list = memcache.get('categories')
+			if cate_list is None:
+				cate_list = Category.objects.all().order_by('order')
+				memcache.set('categories', cate_list, 300)
+		except:
 			cate_list = Category.objects.all().order_by('order')
-			memcache.set('categories-'+lang, cate_list, 300)
-		paginator = Paginator(cate_list, 6)
+		paginator = Paginator(cate_list, PAGE_SIZE)
 		
 		try:
 			categories = paginator.page(page)
 		except PageNotAnInteger:
 			return HttpResponse(status=400)
-		data = {"categories":categories, "lang":request.LANGUAGE_CODE}
+		data = {"categories":categories}
 
 		html = render_to_string("category/category_ajax.html", data)
 		serialized_data = json.dumps({"html": html})
@@ -128,7 +125,7 @@ def get_posts_detail_more(request):
 		else:
 			posts_list = POST.objects.filter(~Q(pk__in=list_viewed),category=cate).order_by('-date')
 
-		paginator = Paginator(posts_list, 6)
+		paginator = Paginator(posts_list, PAGE_SIZE)
 		
 		try:
 			posts = paginator.page(page)
@@ -146,17 +143,7 @@ def get_posts_detail_more(request):
 
 @cache_page(60 * 4)
 def detail_post(request, category=None, slug=None):
-	lang =  request.LANGUAGE_CODE
-	if lang == 'vi':
-		try:
-			post = POST.objects.get(slug_en=slug)
-		except:
-			post = get_object_or_404(POST, slug=slug)
-	else:
-		try:
-			post = POST.objects.get(slug=slug)
-		except:
-			post = get_object_or_404(POST, slug_en=slug)
+	post = get_object_or_404(POST, slug=slug)
 	post.updateView()
 	oldcookie = MultiCookie(cookie=request.COOKIES.get('viewed_post'))
 	list_viewed = oldcookie.values
@@ -168,9 +155,7 @@ def detail_post(request, category=None, slug=None):
 	
 	categories = Category.objects.all().order_by('order')
 
-	redirect = set_redirect(lang, "detail", post)
-
-	response = render_to_response('home/detail.html', {"redirect":redirect,"post":post,"categories":categories, "lang":lang}, context_instance=RequestContext(request))
+	response = render_to_response('home/detail.html', {"post":post,"categories":categories}, context_instance=RequestContext(request))
 	newcookie = MultiCookie(values=list_viewed)
 	response.set_cookie('viewed_post',value=newcookie)
 
@@ -178,27 +163,15 @@ def detail_post(request, category=None, slug=None):
 
 @cache_page(60 * 15)
 def category(request, category=None):
-	lang = request.LANGUAGE_CODE
-	if lang == 'vi':
-		try:
-			cate= Category.objects.get(slug_en=category)
-		except:	
-			cate= get_object_or_404(Category,slug=category)
-	else:
-		try:
-			cate= Category.objects.get(slug=category)
-		except:
-			cate= get_object_or_404(Category,slug_en=category)
+	cate= get_object_or_404(Category,slug=category)
 	posts_list = memcache.get(category)
 	if posts_list is None:		
 		posts_list = POST.objects.filter(category=cate).order_by('-date')
 		memcache.set(category, list(posts_list), 300) 
-	paginator = Paginator(posts_list, 5)
+	paginator = Paginator(posts_list, PAGE_SIZE)
 	posts = paginator.page(1)
 
-	categories = Category.objects.all().order_by('order')
-	redirect = set_redirect(lang, "category", None, cate)
-	return render_to_response('home/index.html', {"redirect": redirect ,"posts":posts,"categories":categories, "cate_current":cate,"lang":request.LANGUAGE_CODE}, context_instance=RequestContext(request))
+	return render_to_response('home/category_page.html', {"posts":posts,"cate_current":cate}, context_instance=RequestContext(request))
 
 def get_array_field(dict_list, field):
     arr_return = []
@@ -229,10 +202,10 @@ def category_post_relative(request, category=None):
 
 	posts_list__viewed = POST.objects.filter(pk__in=list_viewed,category=cate).order_by('-date')
 
-	paginator = Paginator(posts_list_not_view, 6)
+	paginator = Paginator(posts_list_not_view, PAGE_SIZE)
 	posts_not_view = paginator.page(1)
 
-	paginator_viewed = Paginator(posts_list__viewed, 6)
+	paginator_viewed = Paginator(posts_list__viewed, PAGE_SIZE)
 	posts_viewed = paginator_viewed.page(1)
 
 	data = {"posts_not_view":posts_not_view, "posts_viewed":posts_viewed, "cate_current":category, "lang":request.LANGUAGE_CODE}
@@ -291,7 +264,7 @@ def get_uploads(request, field_name=None, populate_post=False):
 @login_required
 def get_images(request):
 	images_list = IMAGE_STORE.objects.all().order_by('-created_date')
-	paginator = Paginator(images_list, 6)
+	paginator = Paginator(images_list, PAGE_SIZE)
 	imagesPage = paginator.page(1)
 	urls = []
 	for blob in imagesPage:
@@ -306,7 +279,7 @@ def get_images_more(request):
 	if request.method == 'POST':
 		page = request.POST.get('page')
 		images_list = IMAGE_STORE.objects.all().order_by('-created_date')
-		paginator = Paginator(images_list, 6)
+		paginator = Paginator(images_list, PAGE_SIZE)
 		try:
 			imagesPage = paginator.page(page)
 		except PageNotAnInteger:
@@ -347,7 +320,7 @@ def search(request):
 	"""
 	key = u'%s' % request.GET['q']
 	callback = request.GET.get('callback')
-	cates = Category.objects.all().filter(Q(name__icontains=key))
+	cates = Category.objects.all().filter(Q(name__icontains=key))[:10]
 	dictionaries = [ obj.as_dict() for obj in cates ]
 	serialized_data = json.dumps(dictionaries)
 	data = '%s(%s)' % (callback, serialized_data)

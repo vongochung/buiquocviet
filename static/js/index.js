@@ -88,7 +88,8 @@ function get_more_post(){
 
 $(document).on("click",".viewmore-post",function(e) {
     var $ele = $(this);
-    loading($ele)
+    //loading($ele)
+    call_loading();
     var page = $(this).data("page"),
     category = $(this).data("category");
     var data = {
@@ -103,7 +104,8 @@ $(document).on("click",".viewmore-post",function(e) {
         data: data,
     })
     .done(function(data) {    
-        $("#post-wrap").append(data.html);            
+        $("#post-wrap").append(data.html);
+        call_loading();            
     })
     .fail(function() {
         console.log("error");
@@ -224,7 +226,9 @@ $(document).on("click","#btn-tim",function(e) {
         var html =  tmpl("item_tmpl", {
             name: val.value,
             url : val.url,
-            image: val.image
+            image: val.image,
+            posts:val.posts,
+            views: val.views
         });
         $("#post-wrap").append(html); 
     });
@@ -265,6 +269,8 @@ function init_search()
                     value: item.name,
                     image: item.image,
                     url: item.url,
+                    posts: item.posts,
+                    views: item.views,
                 };
             })
             response(data_search);

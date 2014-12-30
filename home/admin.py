@@ -8,7 +8,7 @@ class POSTForm(forms.ModelForm):
 
     class Meta:
         model = POST
-        fields = ('title','title_en', 'link','content', 'description','description_en' , 'category')
+        fields = ('title', 'link','content', 'description' , 'category')
 
 
 class CustomPOSTAdmin(admin.ModelAdmin):

@@ -53,7 +53,8 @@
               if (item == "category"){
                 $("#id_image_url").val(url);
               } else{
-                $(tinymce.get('id_content').getBody()).append(s);  
+                a = '<a href="'+url+'" class="highslide" onclick="return hs.expand(this)">'+s+'</a>';
+                $(tinymce.get('id_content').getBody()).append(a);
               }
               
               $("#test").modal("hide");
