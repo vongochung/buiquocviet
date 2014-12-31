@@ -2,7 +2,7 @@ $(function() {
     $(window).on("scroll", get_more_post);
     $(window).on("resize", displayPlayer);
     displayPlayer();
-    set_category();
+    set_pop();
     init_search();
 });
 
@@ -30,12 +30,12 @@ $.ajaxSetup({
      }
 });
 
-function set_category(){
-    h = $(window).height();
-    if (h < 480){
-        //$("#category").css({"max-height": h-20, "overflow-y":"scroll"});
-    }
-   
+$(document).on("click", ".close_ad", function(){
+  $(this).parent().remove();
+});
+
+function set_pop(){
+  $('[data-toggle="popover"]').popover({trigger: 'hover','placement': 'top', 'html':true});  
 }
 function displayPlayer() {
     $(".player").each(function(){
@@ -48,7 +48,7 @@ function displayPlayer() {
         l = offset.left;
         $link.css({left: l+w/2-$link.width()/2, top: t+h/2-$link.height()/2});
     });
-    set_category();
+    set_pop();
     
 }
 
@@ -235,7 +235,7 @@ $(document).on("click","#btn-tim",function(e) {
     call_loading();
 });
 
-$(document).on("click","#banner",function(e) {
+$(document).on("click","#header",function(e) {
     call_loading();
     document.location.href = "/";
 });

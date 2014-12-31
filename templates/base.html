@@ -17,12 +17,22 @@
 <body>
 <header id="header">
     <div class="container top">
-        <div id="banner"></div>
+        <img src="{% static 'images/banner.png' %}" class="img-responsive">
     </div>            
 </header>
 <div class="container content">
     {% block content %}
     {% endblock %}
+<div class="text-center hide">
+    <div class="ad ad-right hidden-xs">
+        <a href="#" class="close_ad">Ẩn quảng cáo</a>
+        <div></div>
+    </div>
+    <div class="ad ad-left hidden-xs">
+        <a href="#" class="close_ad">Ẩn quảng cáo</a>
+        <div></div>
+    </div>
+</div>
 <!-- Loading -->
 <div id="ele-loading" class="throbber hide"><i class="fa fa-spinner fa-spin fa-3x"></i></div>
 <!-- EndLoading -->
@@ -61,11 +71,13 @@
 </div>
 </script>
 </div>
-<div>
-    <div class="hidden-xs hidden-sm">
-       <!-- google ad-->
+<footer>
+    <div class="container">
+        <div class="col-md-12">
+            {% trans "Trang web là nơi sưu tầm cũng như chia sẽ về hình ảnh cũng như bài viết của tác giả. Để tôn trọng tác giả, xin vui lòng ghi rõ nguồn khi sử dụng các thông tin trên trang web này. Xin cảm ơn."%}
+        </div>
     </div>
-</div>
+</footer>
 {% include 'common/homepage/footer.html'  %}
 {% block js %}
 {% endblock %}

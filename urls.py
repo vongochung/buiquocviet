@@ -25,7 +25,7 @@ admin.autodiscover()
 dbindexer.autodiscover()
 
 urlpatterns = patterns('',
-	('^admin-ngudan/vui-len-di-nao/', include(admin.site.urls)),
+	('^admin-lanrung-buiquocviet/hacker/', include(admin.site.urls)),
 	(r'^robots\.txt$', direct_to_template,{'template': 'robots.txt', 'mimetype': 'text/plain'}),
 	(r'^i18n/', include('django.conf.urls.i18n')),
     (r'^jsi18n/$', 'django.views.i18n.javascript_catalog'),

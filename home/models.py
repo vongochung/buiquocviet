@@ -108,6 +108,7 @@ class IMAGE_STORE(models.Model):
     image_tag.short_description = 'Image'
     image_tag.allow_tags = True
 
+
 class POST(models.Model):
     category = models.ForeignKey(Category, null=False, related_name='page_category')
     author = models.ForeignKey(User)
@@ -131,11 +132,14 @@ class POST(models.Model):
     def get_absolute_url(self):
         return ("detail_post", [self.category.slug,self.slug])
 
-    @property
+    def get_new_post(self):
+        return POST.objects.filter(date__gt=self.date,category=self.category).order_by("-date")[:5]
+
+    def get_old_post(self):
+        return POST.objects.filter(date__lt=self.date,category=self.category).order_by("-date")[:5]
+
     def is_past_due(self):
-        if datetime.date.today() > self.date:
-            return True
-        return False
+        return self.date.strftime("%Y-%m-%d") < datetime.datetime.now().strftime("%Y-%m-%d")
 
     def updateView(self):
         if self.views is None:

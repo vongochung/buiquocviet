@@ -8,24 +8,16 @@ header {
     width: 100%;
     z-index: 1;
     border-bottom: 4px solid #CC181E;
+    cursor: pointer;
 }
 header,
 .menu{
-
-    /*kuve-background-color: #0073c6;*/
-    
 }
 
 header,
 footer{
     z-index: 10000;
-	min-height: 50px;
-}
-#banner{
-    height: 150px;
-    background: url('../images/banner.png') no-repeat;
-    background-size: 100%;
-    cursor: pointer;
+	 min-height: 50px;
 }
 #homelink{
     display: block;
@@ -36,7 +28,7 @@ footer{
 }
 
 .content{
-    min-height: 600px;
+    min-height: 700px;
     padding-top: 15px;
 }
 /*===========Menu==============*/
@@ -133,6 +125,15 @@ ul.navbar-nav {
     border-bottom: 1px solid #ddd;
     margin-left: 15px;
     border-left: solid 2px rgb(237, 112, 43);
+}
+.category-post img{
+  width: 50px;
+  height: 50px;
+  padding-right: 5px;
+}
+.r-post a{
+  display: block;
+  color: #000;
 }
 .detail-relative{
     margin-left: 0 !important;
@@ -449,9 +450,18 @@ ul.navbar-nav {
     margin-bottom: 10px;
 }
 .ad{
-    position: fixed;
-    right: 490px;
-    min-height: 800px;
+  width: 160px;
+  height: 600px;
+  border: 1px solid #ddd;
+  position: fixed;
+  background: #fff;
+  z-index: 999;
+}
+.ad-right{
+  right: 0;
+}
+.ad-left{
+  left: 0;
 }
 .player-img{
     background:url('../images/play.png') no-repeat;
@@ -468,7 +478,10 @@ ul.navbar-nav {
 
 /*====footer====*/
 footer{
-    text-align: center;
+  text-align: center;
+  text-align: center;
+  padding-top: 5px;
+  border-top: 4px solid #CC181E;
 }
 footer ul{
     text-align: center;

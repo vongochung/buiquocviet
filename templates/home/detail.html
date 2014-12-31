@@ -5,55 +5,31 @@
 {% load tz %}
 
 {% block title %}
-  {% if lang == "vi" %}
     {{ post.title }}
-  {% else %}
-    {{ post.title_en }}
-  {% endif %}
 {% endblock %}
 
 {% block fb_image %}
-https://i1.ytimg.com/vi/{{ post.link  }}/default.jpg
+{{ post.link  }}
 {% endblock %}
 
 {% block fb_site_name %}
-    {% if lang == "vi" %}
       {{ post.title }}
-    {% else %}
-      {{ post.title_en }}
-    {% endif %}
 {% endblock %}
 
 {% block fb_url %}
-  {% if lang == "vi" %}
     {{HOST}}/{{post.category.slug}}/{{post.slug}}
-  {% else %}
-    {{HOST}}/{{post.category.slug_en}}/{{post.slug_en}}
-  {% endif %}
 {% endblock %}
 
 {% block fb_title %}
-    {% if lang == "vi" %}
       {{ post.title }}
-    {% else %}
-      {{ post.title_en }}
-    {% endif %}
 {% endblock %}
 
 {% block description %}
-    {% if lang == "vi" %}
-      {{ post.title }}
-    {% else %}
-      {{ post.title_en }}
-    {% endif %}
+      {{ post.description }}
 {% endblock %}
 
 {% block descriptions %}
-    {% if lang == "vi" %}
-      {{ post.title }}
-    {% else %}
-      {{ post.title_en }}
-    {% endif %}
+      {{ post.description }}
 {% endblock %}
 
 {% block content %}
@@ -63,7 +39,7 @@ https://i1.ytimg.com/vi/{{ post.link  }}/default.jpg
       <div class="header-post">
           <a href="#">
               <div class="head-img">
-              <img class="profile-img small img-circle " src="{% static 'images/logo1.png' %}"/>
+              <img class="profile-img small img-circle " src="{% static 'images/logo.png' %}"/>
               </div>
               <span class="head-name">{{ post.author }}</span><span><br/><span>{{post.date|timesince }} {% trans "trước" %}</span>
               <span class="pull-right time-post">{{post.date|naturalday }} - {% trans "lúc" %} {{ post.translate|time:"P"  }}</span>
@@ -97,6 +73,30 @@ https://i1.ytimg.com/vi/{{ post.link  }}/default.jpg
       <div class="comment-facebook">
       <div class="fb-comments" data-href="{{HOST}}/{{ post.category.slug }}/{{ post.slug }}/" data-width="100%" data-numposts="5" data-colorscheme="light"></div>
     </div>
+    <div id="newer" class="r-post">
+      <div class="view-list text-center">Bài viết mới hơn</div>
+      {% for p in post.get_new_post %}
+        <div class="col-md-12 col-sm-12 col-xs-12 category-post detail-relative {% if p.is_past_due %}past-post{% endif %}">
+          <a href="{{HOST}}/{{p.category.slug}}/{{p.slug}}/"> 
+          <h4 class="title-post"><img data-container="html" data-toggle="popover" data-placement="left" data-title="{{p.title|lower}}" data-content='{{ p.description|escape|lower}}' src='{{ p.link|default:"/static/images/logo.png" }}' align="left" /><span>{{ p.title|escape|lower|capfirst }}{% if not p.is_past_due  %}<span class="icon-new"></span>{% endif %}</span><span class="pull-right time-post">{{p.date|naturalday }} - {% trans "lúc" %} {{ p.translate|time:"P"  }}</span></h4>
+        </a>
+        </div>
+      {% empty %}
+        <div class="alert alert-warning" >{% trans "Không có bài viết nào" %}</div>
+      {% endfor %}
+    </div>
+    <div id="older" class="r-post">
+      <div class="view-list text-center">Bài viết cũ hơn</div>
+      {% for p in post.get_old_post %}
+      <div class="col-md-12 col-sm-12 col-xs-12 category-post detail-relative {% if p.is_past_due %}past-post{% endif %}">
+        <a href="{{HOST}}/{{p.category.slug}}/{{p.slug}}/">
+          <h4 class="title-post"><img data-container="html" data-toggle="popover" data-placement="left" data-title="{{p.title|lower}}" data-content='{{ p.description|escape|lower}}' src='{{ p.link|default:"/static/images/logo.png" }}' align="left" /><span>{{ p.title|escape|lower|capfirst }}{% if not p.is_past_due  %}<span class="icon-new"></span>{% endif %}</span><span class="pull-right time-post">{{p.date|naturalday }} - {% trans "lúc" %} {{ p.translate|time:"P"  }}</span></h4>
+        </a>
+        </div>
+      {% empty %}
+        <div class="alert alert-warning" >{% trans "Không có bài viết nào" %}</div>
+      {% endfor %}
+    </div> 
     <!-- more Post -->
     <div id="relative-post">
           

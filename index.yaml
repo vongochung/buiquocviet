@@ -113,6 +113,11 @@ indexes:
   properties:
   - name: category_id
   - name: date
+
+- kind: home_post
+  properties:
+  - name: category_id
+  - name: date
     direction: desc
 
 - kind: home_post

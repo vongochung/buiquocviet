@@ -49,12 +49,13 @@
         item = "{{ opts.module_name}}";
         $(document).on("click", ".img-blob", function(){
               url = $(this).data("src");
-              s = '<img src="'+url+'" />';
+              s = '<img src="'+url+'" class="img-responsive"/>';
               if (item == "category"){
                 $("#id_image_url").val(url);
               } else{
                 a = '<a href="'+url+'" class="highslide" onclick="return hs.expand(this)">'+s+'</a>';
                 $(tinymce.get('id_content').getBody()).append(a);
+                $("#id_link").html(url+"=s50");
               }
               
               $("#test").modal("hide");

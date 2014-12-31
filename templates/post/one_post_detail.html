@@ -4,9 +4,9 @@
 
 {% if post.typePost == "text" %}
 <!--One Post -->
-<div class="col-md-12 col-sm-12 col-xs-12 category-post detail-relative{% if post.is_past_due  %}past-post{% endif %}">
+<div class="col-md-12 col-sm-12 col-xs-12 category-post detail-relative {% if post.is_past_due  %}past-post{% endif %}">
   <a href="/{{post.category.slug}}/{{post.slug}}/" class="">
-    <h4 class="title-post"><span>{{ post.title|escape|lower|capfirst }}{% if post.is_past_due == False %}<span class="icon-new"></span>{% endif %}</span><span class="pull-right time-post">{{post.date|naturalday }} - {% trans "lúc" %} {{ post.translate|time:"P"  }}</span></h4>
+    <h4 class="title-post"><img data-toggle="popover" data-title="{{post.title|lower}}" data-content='{{ post.description|escape|lower}}'  src='{{ post.link|default:"/static/images/logo.png" }}' align="left" /><span>{{ post.title|escape|lower|capfirst }}{% if not post.is_past_due %}<span class="icon-new"></span>{% endif %}</span><span class="pull-right time-post">{{post.date|naturalday }} - {% trans "lúc" %} {{ post.translate|time:"P"  }}</span></h4>
     <p class="text-des">{{ post.description|escape|lower|capfirst|truncatechars:100 }}</p>
   </a>
 </div>
