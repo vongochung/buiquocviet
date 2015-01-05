@@ -7,14 +7,7 @@
 {% block content %}
 <link rel="stylesheet" href="//code.jquery.com/ui/1.11.2/themes/smoothness/jquery-ui.css">
 <div class="post-wrap-content">
-	<div id="div-search" class="text-center">
-		<div class="input-group col-md-6 col-lg-6">
-	      <input type="text" id="txt-search" autocomplete="off"  class="form-control ui-autocomplete-input" placeholder="Tìm kiếm lan...">
-	      <span class="input-group-btn">
-	        <button class="btn btn-success" id="btn-tim" type="button">{% trans "Tìm kiếm" %}</button>
-	      </span>
-	    </div><!-- /input-group -->
-	</div>
+	{% include "search/lan_search.html" %}
 	<div id="post-wrap" class="col-md-12 col-sm-12 col-xs-12">
 		{% for lan in categories %}
 			{% include "category/one_category.html" %}
@@ -23,20 +16,28 @@
 	</div>
     <div class="next">
 	{% if categories.has_next %}
-		{% if LANGUAGE_CODE == 'vi' %}
 		<div class="col-md-12 col-sm-12 col-xs-12 post next-post">
 		    <a href="javascript:void(0)" class="viewmore-category" data-page="{{ categories.next_page_number}}">{% trans "Xem thêm" %}</a> 
 		</div>
-		{% else %}
-		<div class="col-md-12 col-sm-12 col-xs-12 post next-post">
-	    	<a href="javascript:void(0)" class="viewmore-category"  data-page="{{ categories.next_page_number}}">{% trans "Xem thêm" %}</a> 
-		</div>
-		{% endif %}
-
 	{% endif %}
     </div>
+</div>
+<div class="test">
+	
+</div>
+<div class="test">
+	
+</div>
+<div class="test">
+	
 </div>
 {% endblock %}
 {% block js %}
   <script src="//code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+  <script src="{% static 'js/jquery.testplugin.js' %}"></script>
+  <script>
+  $(document).ready(function() {
+  		$(".test").testPlugin();
+  });
+  </script>
 {% endblock %}

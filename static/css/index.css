@@ -1,4 +1,5 @@
 body{
+  background: #ebebeb;
 }
 .container{
 	max-width: 960px;
@@ -9,6 +10,7 @@ header {
     z-index: 1;
     border-bottom: 4px solid #CC181E;
     cursor: pointer;
+    
 }
 header,
 .menu{
@@ -16,8 +18,9 @@ header,
 
 header,
 footer{
-    z-index: 10000;
-	 min-height: 50px;
+  z-index: 10000;
+	min-height: 100px;
+  background: #fff;
 }
 #homelink{
     display: block;
@@ -103,9 +106,15 @@ ul.navbar-nav {
 .ad,
 .post{
     margin-bottom: 5px;
-    background: #fff;
     -webkit-border-radius: 3px;
    
+}
+#txt-search,
+#btn-tim{
+  border-radius: 0;
+}
+#txt-search{
+
 }
 .icon-new{
     background: url(http://24h-static.24hstatic.com/images/2014/new.gif) no-repeat top left;
@@ -115,7 +124,9 @@ ul.navbar-nav {
     margin: 0 0 0 5px;
 }
 .past-post{
-    border-left:2px solid #000 !important;
+  border-left: 5px solid #00b9f2 !important;
+  box-shadow: 0px 1px 1px #aaa;
+  margin-bottom: 15px !important;
 }
 .past-post h4{
     color: #000 !important;
@@ -124,7 +135,10 @@ ul.navbar-nav {
     margin-bottom: 5px;
     border-bottom: 1px solid #ddd;
     margin-left: 15px;
-    border-left: solid 2px rgb(237, 112, 43);
+    border-left: solid 5px rgb(237, 112, 43);
+    box-shadow: 0px 1px 1px #aaa;
+    margin-bottom: 15px !important;
+    background: #fff;
 }
 .category-post img{
   width: 50px;
@@ -138,9 +152,14 @@ ul.navbar-nav {
 .detail-relative{
     margin-left: 0 !important;
     text-align: left;
+    padding-bottom: 5px;
 }
 .post-detail{
     padding-left: 15px !important;
+    background: #fff;
+    margin-bottom: 15px;
+    box-shadow: 0px 1px 1px #aaa;
+    border-left: 5px solid #f7941d;
 }
 .header-post{
     padding: 6px;

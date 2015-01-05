@@ -21,7 +21,7 @@ $(function() {
 });
 window.fbAsyncInit = function() {
     FB.init({
-        appId      : '1504773003132119',
+        appId      : '795819590490643',
         cookie     : true,  // enable cookies to allow the server to access 
                             // the session
         xfbml      : true,  // parse social plugins on this page
@@ -41,7 +41,7 @@ function comment_create(response) {
         data: {"p":"{{post.id}}"},
     })
     .done(function(data) {    
-        console.log("commented");         
+        console.log("commented");       
     })
     .fail(function() {
         console.log("error comment");

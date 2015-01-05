@@ -21,7 +21,7 @@ import cgi
 now = datetime.now()
 from settings import PAGE_SIZE
 
-@cache_page(60 * 5)
+#@cache_page(60 * 5)
 def index(request):
 	lang = request.LANGUAGE_CODE
 	categories = memcache.get('categories-'+lang)
